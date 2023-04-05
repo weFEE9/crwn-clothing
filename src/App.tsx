@@ -1,26 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import CategoryMenu from './components/category-menu/category-menu.component';
+
+const App = () => {
+  const categories = [
+    {
+      id: '1',
+      title: 'Hats',
+      subtitle: 'Shop Now',
+      imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
+    },
+    {
+      id: '2',
+      title: 'Jackets',
+      subtitle: 'Shop Now',
+      imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
+    },
+    {
+      id: '3',
+      title: 'Sneakers',
+      subtitle: 'Shop Now',
+      imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
+    },
+    {
+      id: '4',
+      title: 'Womens',
+      subtitle: 'Shop Now',
+      imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
+    },
+    {
+      id: '5',
+      title: 'Mens',
+      subtitle: 'Shop Now',
+      imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
+    },
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App categories-container'>
+      <CategoryMenu categoryItems={categories} />
     </div>
   );
-}
+};
 
 export default App;
