@@ -2,7 +2,8 @@ import './button.styles.scss';
 
 type MyProps = {
   children: string;
-  type: 'submit' | 'reset' | 'button' | undefined;
+  type?: 'submit' | 'reset' | 'button' | undefined;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   buttonType: 'google' | 'inverted' | 'default';
 };
 
