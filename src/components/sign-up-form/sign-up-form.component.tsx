@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   createUserDocumentFromAuth,
   createAuthUserWithEmailAndPassword,
@@ -8,6 +8,7 @@ import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
 
 import './sign-up-form.styles.scss';
+import { UserContext, ContextUser } from '../../contexts/user.context';
 
 type formFields = {
   displayName: string;
@@ -27,6 +28,8 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
+  const { setCurrentUser } = useContext(UserContext);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -40,8 +43,6 @@ const SignUpForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log('sign up');
-
     const validConfirmPassword = password === confirmPassword;
     if (!validConfirmPassword) {
       alert('password do not match');
@@ -54,8 +55,6 @@ const SignUpForm = () => {
         password
       );
 
-      console.log(response);
-
       if (!response) {
         return;
       }
@@ -63,6 +62,16 @@ const SignUpForm = () => {
       await createUserDocumentFromAuth(response.user);
 
       resetFormFields();
+
+      const { user } = response;
+      let ctxUser: ContextUser = {
+        id: user.uid,
+        email: user.email,
+        name: user.displayName,
+        token: user.refreshToken,
+      };
+
+      setCurrentUser(ctxUser);
     } catch (error) {
       console.log('user creation encountered error', error);
     }
