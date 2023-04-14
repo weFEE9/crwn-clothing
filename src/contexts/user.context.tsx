@@ -3,18 +3,19 @@ import React, {
   useState,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from 'react';
 
-export type ContextUser = {
-  id: string;
-  name: string | null;
-  email: string | null;
-  token: string;
-};
+import { User } from 'firebase/auth';
+
+import {
+  createUserDocumentFromAuth,
+  onAuthStateChangedListener,
+} from '../utils/firebase/firebase.utils';
 
 type context = {
-  currentUser: ContextUser | null;
-  setCurrentUser: Dispatch<SetStateAction<ContextUser | null>>;
+  currentUser: User | null;
+  setCurrentUser: Dispatch<SetStateAction<User | null>>;
 };
 
 // as the actual value you want to access
@@ -28,8 +29,19 @@ type MyProps = {
 };
 
 export const UserProvider = ({ children }: MyProps) => {
-  const [currentUser, setCurrentUser] = useState<ContextUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const value: context = { currentUser, setCurrentUser };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener((user: User | null) => {
+      if (user) {
+        createUserDocumentFromAuth(user);
+      }
+      setCurrentUser(user);
+    });
+
+    return unsubscribe;
+  }, []);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
