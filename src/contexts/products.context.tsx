@@ -2,6 +2,7 @@ import { createContext, useState, Dispatch, SetStateAction } from 'react';
 
 import shopdatas from '../shop-data.json';
 
+
 const PRODUCTS: Product[] = shopdatas;
 
 export type Product = {

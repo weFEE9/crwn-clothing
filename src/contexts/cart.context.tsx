@@ -6,14 +6,16 @@ import {
   SetStateAction,
 } from 'react';
 import { Product } from './products.context';
-import { toASCII } from 'punycode';
 
 type context = {
   isCartOpen: boolean;
   setIsCartOpen: Dispatch<SetStateAction<boolean>>;
   cartItems: CartItem[];
-  addItemToCart: (productToAdd: Product) => void;
+  addItemToCart: (productToAdd: Product | CartItem) => void;
+  removeItemFromCart: (productToRemove: Product | CartItem) => void;
+  deleteItemFromCart: (productToDelete: Product | CartItem) => void;
   totalCount: number;
+  totalPrice: number;
 };
 
 export type CartItem = Product & {
@@ -24,8 +26,11 @@ export const CartContext = createContext<context>({
   isCartOpen: false,
   setIsCartOpen: () => {},
   cartItems: [],
-  addItemToCart: (productToAdd: Product) => {},
+  addItemToCart: (productToAdd: Product | CartItem) => {},
   totalCount: 0,
+  removeItemFromCart: (cartItemToRemove: Product | CartItem) => {},
+  deleteItemFromCart: (productToDelete: Product | CartItem) => {},
+  totalPrice: 0,
 });
 
 type MyProps = {
@@ -36,9 +41,20 @@ export const CartProvider = ({ children }: MyProps) => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
-  const addItemToCart = (productToAdd: Product) => {
+  const addItemToCart = (productToAdd: Product | CartItem) => {
     const newItemList = addCartItem(cartItems, productToAdd);
+    setCartItems(newItemList);
+  };
+
+  const removeItemFromCart = (cartItemToRemove: Product | CartItem) => {
+    const newItemList = removeCartItem(cartItems, cartItemToRemove);
+    setCartItems(newItemList);
+  };
+
+  const deleteItemFromCart = (productToDelete: Product | CartItem) => {
+    const newItemList = deleteCartItem(cartItems, productToDelete);
     setCartItems(newItemList);
   };
 
@@ -47,20 +63,23 @@ export const CartProvider = ({ children }: MyProps) => {
       return total + item.quantity;
     }, 0);
 
-    setTotalCount(totalCount);
-  }, [cartItems]);
+    const totalPrice = cartItems.reduce((total, item) => {
+      return total + item.quantity * item.price;
+    }, 0);
 
-  const updateTotalCount = () => {
-    const totalCount = countCartItmes(cartItems);
     setTotalCount(totalCount);
-  };
+    setTotalPrice(totalPrice);
+  }, [cartItems]);
 
   const value: context = {
     isCartOpen,
     setIsCartOpen,
     cartItems: cartItems,
     addItemToCart: addItemToCart,
+    removeItemFromCart: removeItemFromCart,
+    deleteItemFromCart: deleteItemFromCart,
     totalCount: totalCount,
+    totalPrice: totalPrice,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
@@ -68,7 +87,7 @@ export const CartProvider = ({ children }: MyProps) => {
 
 const addCartItem = (
   cartItems: CartItem[],
-  productToAdd: Product
+  productToAdd: Product | CartItem
 ): CartItem[] => {
   const cartItemExist = cartItems.find((item) => {
     return item.id === productToAdd.id;
@@ -88,11 +107,32 @@ const addCartItem = (
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
-const countCartItmes = (cartItems: CartItem[]): number => {
-  let count = 0;
-  cartItems.forEach((item) => {
-    count += item.quantity;
+const removeCartItem = (
+  cartItems: CartItem[],
+  cartItemToRemove: Product | CartItem
+): CartItem[] => {
+  const existingItem = cartItems.find((item) => {
+    return item.id === cartItemToRemove.id;
   });
 
-  return count;
+  if (existingItem?.quantity === 1) {
+    return cartItems.filter((item) => {
+      return item.id !== existingItem.id;
+    });
+  }
+
+  return cartItems.map((item) => {
+    return item.id === cartItemToRemove.id
+      ? { ...item, quantity: item.quantity - 1 }
+      : item;
+  });
+};
+
+const deleteCartItem = (
+  cartItems: CartItem[],
+  cartItemToRemove: Product | CartItem
+): CartItem[] => {
+  return cartItems.filter((item) => {
+    return item.id !== cartItemToRemove.id;
+  });
 };
