@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { createAuthUserWithEmailAndPassword } from '../../utils/firebase/firebase.utils';
 
 import FormInput from '../form-input/form-input.component';
-import Button from '../button/button.component';
+import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 
 import './sign-up-form.styles.scss';
 
@@ -100,7 +100,7 @@ const SignUpForm = () => {
           required
         />
 
-        <Button type='submit' buttonType='default'>
+        <Button type='submit' buttonType={BUTTON_TYPE_CLASSES.default}>
           Sign Up
         </Button>
       </form>

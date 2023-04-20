@@ -1,5 +1,5 @@
 import './cart-dropdown.styles.scss';
-import Button from '../button/button.component';
+import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 import CartItem from '../cart-item/cart-item.component';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +25,10 @@ const CartDropdown = () => {
           );
         })}
       </div>
-      <Button buttonType='default' onClick={navigateHandler}>
+      <Button
+        buttonType={BUTTON_TYPE_CLASSES.default}
+        onClick={navigateHandler}
+      >
         GO TO CHECKOUT
       </Button>
     </div>
