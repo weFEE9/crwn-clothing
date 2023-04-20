@@ -1,5 +1,4 @@
 import React from 'react';
-import './button.styles.scss';
 import { BaseButton, GoogleSignInButton, InvertButton } from './button.styles';
 
 type MyProps = {
