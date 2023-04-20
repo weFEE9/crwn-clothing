@@ -1,10 +1,10 @@
 import './category-item.styles.scss';
 
 type MyProps = {
-  category: CategoryItem;
+  category: Item;
 };
 
-type CategoryItem = {
+type Item = {
   id: string;
   title: string;
   subtitle: string;
@@ -15,14 +15,14 @@ const CategoryItem = ({ category }: MyProps) => {
   const { id, title, subtitle, imageUrl } = category;
 
   return (
-    <div className='category-container'>
+    <div className='category-item-container'>
       <div
         className='background-image'
         style={{
           backgroundImage: `url(${imageUrl})`,
         }}
       />
-      <div className='category-body-container'>
+      <div className='category-item-body-container'>
         <h2>{title}</h2>
         <p>{subtitle}</p>
       </div>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Product } from '../../contexts/products.context';
 import ProductCard from '../product-card/product-card.component';
 
@@ -9,10 +10,15 @@ type MyProps = {
 };
 
 const CategoryPreview = ({ title, products }: MyProps) => {
+  const titleInLowerCase = title.toLocaleLowerCase();
+  const titleInUpperCase = title.toLocaleUpperCase();
+
   return (
     <div className='category-preview-container'>
       <h2>
-        <span className='title'>{title.toLocaleUpperCase()}</span>
+        <Link className={title} to={titleInLowerCase}>
+          {titleInUpperCase}
+        </Link>
       </h2>
       <div className='preview'>
         {products
