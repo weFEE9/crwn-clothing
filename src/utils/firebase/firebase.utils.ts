@@ -15,7 +15,18 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from 'firebase/firestore';
+
+import { Collection } from '../../contexts/products.context';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -40,6 +51,22 @@ export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
+
+export const addCollectionAndDocuments = async (
+  collectionKey: string,
+  shopCollections: Collection[]
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  shopCollections.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log('done');
+};
 
 export const createUserDocumentFromAuth = async (user: User) => {
   if (!user) return;
@@ -92,3 +119,29 @@ export const signOutUser = async () => {
 export const onAuthStateChangedListener = (
   callback: (user: User | null) => void
 ) => onAuthStateChanged(auth, callback);
+
+export const getCategoriesAndDocuments = async (): Promise<
+  ShopCollection[]
+> => {
+  const collectionRef = collection(db, 'categories');
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((docSnapshot) => {
+    const data = docSnapshot.data() as ShopCollection;
+
+    return data;
+  });
+};
+
+type ShopCollection = {
+  title: string;
+  items: Product[];
+};
+
+type Product = {
+  id: number;
+  name: string;
+  imageUrl: string;
+  price: number;
+};

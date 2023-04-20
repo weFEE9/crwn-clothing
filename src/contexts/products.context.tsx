@@ -1,9 +1,11 @@
-import { createContext, useState, Dispatch, SetStateAction } from 'react';
+import { createContext, useState } from 'react';
 
-import shopdatas from '../shop-data.json';
+import SHOP_DATA from '../shop-data';
 
-
-const PRODUCTS: Product[] = shopdatas;
+export type Collection = {
+  title: string;
+  items: Product[];
+};
 
 export type Product = {
   id: number;
@@ -13,11 +15,11 @@ export type Product = {
 };
 
 type context = {
-  products: Product[];
+  collections: Collection[];
 };
 
 export const ProductsContext = createContext<context>({
-  products: [],
+  collections: [],
 });
 
 type MyProps = {
@@ -25,8 +27,8 @@ type MyProps = {
 };
 
 export const ProductsProvider = ({ children }: MyProps) => {
-  const [products, setProducts] = useState(PRODUCTS);
-  const value = { products };
+  const [collections, setCollections] = useState(SHOP_DATA);
+  const value = { collections: collections };
 
   return (
     <ProductsContext.Provider value={value}>
