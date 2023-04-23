@@ -6,7 +6,7 @@ type MyProps = {
   cartItem: Item;
 };
 
-const CartItem = ({ cartItem: cartItem }: MyProps) => {
+const CartItem = ({ cartItem }: MyProps) => {
   const { name, imageUrl, price, quantity } = cartItem;
 
   return (
