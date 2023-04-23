@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import {
   CategoryItemContainer,
   BackgroundImage,
@@ -13,13 +15,17 @@ type Item = {
   title: string;
   subtitle: string;
   imageUrl: string;
+  route: string;
 };
 
 const CategoryItem = ({ category }: MyProps) => {
-  const { id, title, subtitle, imageUrl } = category;
+  const { id, title, subtitle, imageUrl, route } = category;
+  const navigate = useNavigate();
+
+  const onNavigateHandler = () => navigate(route);
 
   return (
-    <CategoryItemContainer>
+    <CategoryItemContainer onClick={onNavigateHandler}>
       <BackgroundImage imageUrl={imageUrl} />
       <Body>
         <h2>{title}</h2>
