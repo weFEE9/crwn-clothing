@@ -35,7 +35,7 @@ enum USER_ACTION_TYPES {
 }
 
 type Action = {
-  type: keyof typeof USER_ACTION_TYPES;
+  type: USER_ACTION_TYPES;
   payload: User | null;
 };
 
