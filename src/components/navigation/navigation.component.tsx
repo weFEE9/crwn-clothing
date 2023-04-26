@@ -18,7 +18,6 @@ import {
 
 const Navigation = () => {
   const currentUser = useSelector(selectCurrentUser);
-  console.log(currentUser);
 
   const { isCartOpen } = useContext(CartContext);
 
