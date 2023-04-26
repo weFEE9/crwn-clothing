@@ -3,12 +3,16 @@ import CategoryPreview from '../../components/category-preview/category-preview.
 import { selectCategories } from '../../store/categories/category.selector';
 
 const CategoriesPreview = () => {
-  const collections = useSelector(selectCategories);
+  const collectionsMap = useSelector(selectCategories);
 
   return (
     <div className='category-preview-container'>
-      {collections.map((collection) => {
-        const { title, items } = collection;
+      {Object.keys(collectionsMap).map((title) => {
+        const items = collectionsMap.get(title);
+
+        if (!items) {
+          throw new Error(`unexpected title: [${title}]`);
+        }
 
         return (
           <CategoryPreview

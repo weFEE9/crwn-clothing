@@ -10,25 +10,25 @@ import './category.styles.scss';
 
 const Category = () => {
   const { category } = useParams();
-  const collections = useSelector(selectCategories);
+  const collectionsMap = useSelector(selectCategories);
 
   const [products, setProducts] = useState([] as Product[]);
 
   useEffect(() => {
-    const targetCollection = collections.find((collection) => {
-      const { title } = collection;
-      const titleInLowerCase = title.toLocaleLowerCase();
-      const categoryInLowerCase = category?.toLocaleLowerCase();
-
-      return titleInLowerCase === categoryInLowerCase;
-    });
-
-    if (!targetCollection) {
+    if (!category) {
       return;
     }
 
-    setProducts(targetCollection.items);
-  }, [category, collections]);
+    const items = collectionsMap.get(category);
+
+    if (!items) {
+      console.log('undefined');
+
+      return;
+    }
+
+    setProducts(items);
+  }, [category, collectionsMap]);
 
   return (
     <Fragment>
