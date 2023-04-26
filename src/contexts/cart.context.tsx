@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react';
-import { Product } from './products.context';
+import { Product } from '../store/categories/category.types';
 
 type CartState = {
   isCartOpen: boolean;

@@ -1,5 +1,5 @@
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
-import { Product } from '../../contexts/products.context';
+import { Product } from '../../store/categories/category.types';
 import { CartContext } from '../../contexts/cart.context';
 
 import './product-card.styles.scss';
