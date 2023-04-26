@@ -65,7 +65,7 @@ export const UserProvider = ({ children }: MyProps) => {
     dispatch({
       type: USER_ACTION_TYPES.SET_CURRENT_USER,
       payload: user,
-    } as Action);
+    });
   };
 
   const value: context = { currentUser, setCurrentUser };
