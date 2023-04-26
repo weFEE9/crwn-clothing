@@ -26,7 +26,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 
-import { Collection } from '../../contexts/products.context';
+import { Category } from '../../store/categories/category.types';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -54,7 +54,7 @@ export const db = getFirestore();
 
 export const addCollectionAndDocuments = async (
   collectionKey: string,
-  shopCollections: Collection[]
+  shopCollections: Category[]
 ) => {
   const collectionRef = collection(db, collectionKey);
   const batch = writeBatch(db);
@@ -120,28 +120,14 @@ export const onAuthStateChangedListener = (
   callback: (user: User | null) => void
 ) => onAuthStateChanged(auth, callback);
 
-export const getCategoriesAndDocuments = async (): Promise<
-  ShopCollection[]
-> => {
+export const getCategoriesAndDocuments = async (): Promise<Category[]> => {
   const collectionRef = collection(db, 'categories');
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((docSnapshot) => {
-    const data = docSnapshot.data() as ShopCollection;
+    const data = docSnapshot.data() as Category;
 
     return data;
   });
-};
-
-type ShopCollection = {
-  title: string;
-  items: Product[];
-};
-
-type Product = {
-  id: number;
-  name: string;
-  imageUrl: string;
-  price: number;
 };
