@@ -22,8 +22,6 @@ const Category = () => {
     const items = collectionsMap.get(category);
 
     if (!items) {
-      console.log('undefined');
-
       return;
     }
 
