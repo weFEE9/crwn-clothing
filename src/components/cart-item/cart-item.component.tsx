@@ -1,4 +1,4 @@
-import { CartItem as Item } from '../../contexts/cart.context';
+import { CartItem as Item } from '../../store/cart/cart.types';
 
 import './cart-item.styles.scss';
 

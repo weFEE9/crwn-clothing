@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Product } from '../../contexts/products.context';
+import { Product } from '../../store/categories/category.types';
 import ProductCard from '../product-card/product-card.component';
 
 import './category-preview.styles.scss';
