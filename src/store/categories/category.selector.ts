@@ -1,13 +1,25 @@
 import { IRootState } from '../root-reducer';
+import { createSelector } from 'reselect';
+
 import { Product } from './category.types';
 
-export const selectCategories = (state: IRootState) =>
-  state.categories.categories.reduce((acc, category) => {
-    const { title, items } = category;
+const selectCategoryReducer = (state: IRootState) => state.categories;
 
-    const titleInLowerCase = title.toLowerCase();
+export const selectCategories = createSelector(
+  [selectCategoryReducer], // input selector
+  (categories) => categories.categories // output selector
+);
 
-    acc.set(titleInLowerCase, items);
+export const selectCategoriesMap = createSelector(
+  [selectCategories],
+  (categories) =>
+    categories.reduce((acc, category) => {
+      const { title, items } = category;
 
-    return acc;
-  }, new Map<string, Product[]>());
+      const titleInLowerCase = title.toLowerCase();
+
+      acc.set(titleInLowerCase, items);
+
+      return acc;
+    }, new Map<string, Product[]>())
+);
