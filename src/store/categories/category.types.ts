@@ -18,6 +18,10 @@ export type Product = {
   price: number;
 };
 
+export type CategoriesMap = {
+  [key: string]: Product[];
+};
+
 export type Action = {
   type: CATEGORIES_ACTION_TYPES;
   payload: Category[];

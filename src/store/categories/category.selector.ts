@@ -1,7 +1,7 @@
 import { IRootState } from '../root-reducer';
 import { createSelector } from 'reselect';
 
-import { Product } from './category.types';
+import { CategoriesMap } from './category.types';
 
 const selectCategoryReducer = (state: IRootState) => state.categories;
 
@@ -18,8 +18,8 @@ export const selectCategoriesMap = createSelector(
 
       const titleInLowerCase = title.toLowerCase();
 
-      acc.set(titleInLowerCase, items);
+      acc[titleInLowerCase] = items;
 
       return acc;
-    }, new Map<string, Product[]>())
+    }, {} as CategoriesMap)
 );

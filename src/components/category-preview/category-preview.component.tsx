@@ -13,8 +13,6 @@ const CategoryPreview = ({ title, products }: MyProps) => {
   const titleInLowerCase = title.toLocaleLowerCase();
   const titleInUpperCase = title.toLocaleUpperCase();
 
-  console.log('~~~~', title, products);
-
   return (
     <div className='category-preview-container'>
       <h2>
