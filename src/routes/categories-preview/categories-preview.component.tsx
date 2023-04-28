@@ -6,14 +6,9 @@ import { Product } from '../../store/categories/category.types';
 const CategoriesPreview = () => {
   const collectionsMap = useSelector(selectCategoriesMap);
 
-  console.log('!!!', collectionsMap);
-  console.log('>>>', Object.keys(collectionsMap));
-
   return (
     <div className='category-preview-container'>
       {Object.keys(collectionsMap).map((title) => {
-        console.log(title);
-
         const items = collectionsMap[title];
 
         return (
