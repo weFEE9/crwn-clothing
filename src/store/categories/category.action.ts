@@ -1,4 +1,4 @@
-import { Dispatch, AnyAction } from 'redux';
+import { Dispatch } from 'react';
 
 import {
   Action as CategoriesAction,
@@ -6,8 +6,6 @@ import {
   Category,
 } from './category.types';
 import { getCategoriesAndDocuments } from '../../utils/firebase/firebase.utils';
-import { categoriesReducer } from './category.reducer';
-import { IRootState } from '../root-reducer';
 
 export const fetchCategoriesStart = (): CategoriesAction => {
   return {
@@ -33,7 +31,7 @@ export const fetchCategoriesFailed = (err: any): CategoriesAction => {
 };
 
 export const fetchCategoriesAsync =
-  (): ThunkResult<void> => async (dispatch) => {
+  () => async (dispatch: Dispatch<CategoriesAction>) => {
     dispatch(fetchCategoriesStart());
 
     try {
@@ -43,8 +41,3 @@ export const fetchCategoriesAsync =
       dispatch(fetchCategoriesFailed(err));
     }
   };
-
-export type ThunkResult<R> = (
-  dispatch: Dispatch,
-  getState: () => IRootState
-) => R;
