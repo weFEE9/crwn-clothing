@@ -1,4 +1,5 @@
 import { User } from 'firebase/auth';
+import { signOutFailed } from './user.action';
 
 export type UserState = {
   currentUser: User | null;
@@ -16,6 +17,9 @@ export enum USER_ACTION_TYPES {
   SIGN_UP_START = 'user/SIGN_UP_START',
   SIGN_UP_SUCCESS = 'user/SIGN_UP_SUCCESS',
   SIGN_UP_FAILED = 'user/SIGN_UP_START',
+  SIGN_OUT_START = 'user/SIGN_OUT_START',
+  SIGN_OUT_SUCCESS = 'user/SIGN_OUT_SUCCESS',
+  SIGN_OUT_FAILED = 'user/SIGN_OUT_FAILED',
 }
 
 export type Action =
@@ -27,7 +31,10 @@ export type Action =
   | signInFailedAction
   | signUpStartAction
   | signUpSuccessAction
-  | signUpFailedAction;
+  | signUpFailedAction
+  | signOutStartAction
+  | signOutSuccessAction
+  | signOutFailedAction;
 
 type setCurrentUserAction = {
   type: USER_ACTION_TYPES.SET_CURRENT_USER;
@@ -79,6 +86,23 @@ export type signUpSuccessAction = {
 
 type signUpFailedAction = {
   type: USER_ACTION_TYPES.SIGN_UP_FAILED;
+  payload: {
+    error: any;
+  };
+};
+
+export type signOutStartAction = {
+  type: USER_ACTION_TYPES.SIGN_OUT_START;
+  payload?: null;
+};
+
+export type signOutSuccessAction = {
+  type: USER_ACTION_TYPES.SIGN_OUT_SUCCESS;
+  payload?: null;
+};
+
+export type signOutFailedAction = {
+  type: USER_ACTION_TYPES.SIGN_OUT_FAILED;
   payload: {
     error: any;
   };
