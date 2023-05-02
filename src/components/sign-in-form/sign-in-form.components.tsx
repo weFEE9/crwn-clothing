@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { signInAuthUserWithEmailAndPassword } from '../../utils/firebase/firebase.utils';
 
 import {
   emailSignInStart,
@@ -11,7 +10,6 @@ import FormInput from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 
 import './sign-in-form.styles.scss';
-import { signInWithEmail } from '../../store/user/user.saga';
 
 type formFields = {
   email: string;
