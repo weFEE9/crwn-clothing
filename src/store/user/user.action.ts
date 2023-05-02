@@ -43,3 +43,29 @@ export const signInFailed = (error: any): Action => {
     payload: error,
   };
 };
+
+export const signUpStart = (email: string, password: string): Action => {
+  return {
+    type: USER_ACTION_TYPES.SIGN_UP_START,
+    payload: {
+      email: email,
+      password: password,
+    },
+  };
+};
+
+export const signUpSuccess = (user: User): Action => {
+  return {
+    type: USER_ACTION_TYPES.SIGN_UP_SUCCESS,
+    payload: user,
+  };
+};
+
+export const signUpFailed = (err: any): Action => {
+  return {
+    type: USER_ACTION_TYPES.SIGN_UP_FAILED,
+    payload: {
+      error: err,
+    },
+  };
+};
