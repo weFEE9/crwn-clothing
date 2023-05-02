@@ -24,6 +24,8 @@ import {
   writeBatch,
   query,
   getDocs,
+  DocumentSnapshot,
+  DocumentData,
 } from 'firebase/firestore';
 
 import { Category } from '../../store/categories/category.types';
@@ -68,9 +70,9 @@ export const addCollectionAndDocuments = async (
   console.log('done');
 };
 
-export const createUserDocumentFromAuth = async (user: User) => {
-  if (!user) return;
-
+export const createUserDocumentFromAuth = async (
+  user: User
+): Promise<DocumentSnapshot<DocumentData>> => {
   const userDocRef = doc(db, 'users', user.uid);
 
   const userSnapshot = await getDoc(userDocRef);
@@ -91,7 +93,7 @@ export const createUserDocumentFromAuth = async (user: User) => {
     }
   }
 
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const createAuthUserWithEmailAndPassword = async (
@@ -129,5 +131,18 @@ export const getCategoriesAndDocuments = async (): Promise<Category[]> => {
     const data = docSnapshot.data() as Category;
 
     return data;
+  });
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
   });
 };
