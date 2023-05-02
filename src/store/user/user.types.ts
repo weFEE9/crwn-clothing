@@ -38,7 +38,7 @@ type googleSignInStartAction = {
   payload?: null;
 };
 
-type emailSignInStartAction = {
+export type emailSignInStartAction = {
   type: USER_ACTION_TYPES.EMAIL_SIGN_IN_START;
   payload: {
     email: string;
