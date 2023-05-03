@@ -122,8 +122,10 @@ export const onAuthStateChangedListener = (
   callback: (user: User | null) => void
 ) => onAuthStateChanged(auth, callback);
 
-export const getCategoriesAndDocuments = async (): Promise<Category[]> => {
-  const collectionRef = collection(db, 'categories');
+export const getCategoriesAndDocuments = async (
+  path: string
+): Promise<Category[]> => {
+  const collectionRef = collection(db, path);
   const q = query(collectionRef);
 
   const querySnapshot = await getDocs(q);
